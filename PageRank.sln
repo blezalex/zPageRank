@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageRank", "PageRank\PageRa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shingles", "Shingles\Shingles.csproj", "{8ADBF66C-4730-4CB7-ABBD-2148442AA30F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageRankTests", "PageRankTests\PageRankTests.csproj", "{5DF71A80-30DD-4ADA-85CA-81B604FB64E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "PageRankTests\Tests.csproj", "{5DF71A80-30DD-4ADA-85CA-81B604FB64E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

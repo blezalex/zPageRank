@@ -4,52 +4,62 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
 
 namespace PageRank
 {
     class Program
     {
-        static void Main(string[] args)
+        public static int IntParseFast(string value, int offset = 0, int len = -1)
         {
-            //var m = new double[,] {     { 0, 0.5, 0.5 }, 
-            //                            { 0,   0,    1}, 
-            //                            { 1,   0,    0}
-            //                    };
-
-
-
-            //var rank = Rank.Calculate(m);
-
-
-            //List<Node> graph = new List<Node> { 
-            //    new Node { OutgoingLinks = new List<int> { 1, 2 },  IncomingLinks = new List<int> { 2  } }, 
-            //    new Node { OutgoingLinks = new List<int> { 2 },     IncomingLinks = new List<int> { 1  } },
-            //    new Node { OutgoingLinks = new List<int> { 0 },     IncomingLinks = new List<int> { 0, 1 } },
-            //};
-
-            //var graphRank = RankGraph.Calculate(graph);
-
-            var nodesCount = 950000;
-            var graph = new List<Node>(nodesCount - 1);
-            for (var i = 0; i < nodesCount; i++)
+            if (len == -1)
             {
-                graph.Add(new Node());
+                len = value.Length - offset;
             }
 
+            // An optimized int parse method.
+            int result = 0;
+            for (int i = 0; i < len; i++)
+            {
+                result = 10 * result + (value[i + offset] - 48);
+            }
+            return result;
+        }
+
+        static void Main(string[] args)
+        {
+            var graph = new Node[920000];
+
+
             int totalLinks = 0;
+            int totalNodes = 0;
+            var sw = new Stopwatch();
+            sw.Start();
+
             using (var sr = File.OpenText(@"C:\Users\Alex\Desktop\web-Google.txt"))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    if (line.StartsWith("#"))
+                    if (line[0] == '#')
                         continue;
 
-                    var nums = line.Split('\t');
+                    var separatorIdx = line.IndexOf('\t');
 
+                    int fromNodeId = IntParseFast(line, 0, separatorIdx);
+                    int toNodeId = IntParseFast(line, separatorIdx + 1);
 
-                    int fromNodeId = int.Parse(nums[0]);
-                    int toNodeId = int.Parse(nums[1]);
+                    if (graph[fromNodeId] == null)
+                    {
+                        graph[fromNodeId] = new Node();
+                        totalNodes++;
+                    }
+
+                    if (graph[toNodeId] == null)
+                    {
+                        graph[toNodeId] = new Node();
+                        totalNodes++;
+                    }
 
                     graph[fromNodeId].OutgoingLinksCount++;
                     graph[toNodeId].IncomingLinks.Add(fromNodeId);
@@ -59,13 +69,20 @@ namespace PageRank
 
             }
 
-            var graphRank = RankGraph.Calculate(graph, 0.8, 1e-10);
+            TimeSpan readTime = sw.Elapsed;
+            Console.WriteLine(sw.Elapsed);
+
+            var graphRank = RankGraph.Calculate(graph, 0.8, 1e-10, totalNodes);
+            TimeSpan calcTime = sw.Elapsed - readTime;
+            sw.Stop();
 
             double sum = 0;
             for (int i = 0; i < graphRank.Length; i++)
             {
                 sum += graphRank[i];
             }
+
+            Console.WriteLine("99th rank: {0:e} Sum: {1} ReadTime: {2} CalcTime: {3}", graphRank[99], sum, readTime, calcTime);
         }
     }
 }
