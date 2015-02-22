@@ -30,17 +30,18 @@ namespace PageRank
                 }
             }
 
+            object rankLock = new object();
             double distributedRank = 0; //  leakedRank = totalRank - distributedRank
-            double rankRedistributionAmount = 1;
+            int changedRanksCount = 1;
 
-            while (rankRedistributionAmount > epsilon)
+            while (changedRanksCount > 0)
             {
                 distributedRank = 0;
-                for (int i = 0; i < graph.Count; i++) // calculate rank based on incoming links
+                Parallel.For(0, graph.Count, i=> // calculate rank based on incoming links
                 {
                     var node = graph[i];
                     if (node == null)
-                        continue;
+                        return;
 
                     double nodeNewRank = 0;
                     foreach (var incomingNodeIdx in node.IncomingLinks)
@@ -50,19 +51,27 @@ namespace PageRank
 
                     newRank[i] = nodeNewRank;
 
-                    distributedRank += nodeNewRank;
-                }
+                    lock (rankLock)
+                    {
+                        distributedRank += nodeNewRank;
+                    }
+                });
 
                 var leakedRankPerNode = (totalRank - distributedRank) / actualNodesCount;
-                rankRedistributionAmount = 0;
+                changedRanksCount = 0;
                 for (int i = 0; i < graph.Count; i++) //re-insert leaked rank
                 {
                     if (graph[i] == null)
                         continue;
 
                     newRank[i] += leakedRankPerNode;
-                 
-                    rankRedistributionAmount = Math.Max(rankRedistributionAmount, Math.Abs(newRank[i] - prevRank[i]));  // calc how much ranks have changed
+
+                    if (changedRanksCount == 0) // calc how much ranks have changed
+                    {
+                        if (Math.Abs(newRank[i] - prevRank[i]) > epsilon)
+                            changedRanksCount++;
+                    }
+  
                     prevRank[i] = newRank[i]; //  copy newRank to prev to prepare for next iteration
                 }
             }
