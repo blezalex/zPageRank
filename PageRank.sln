@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageRank", "PageRank\PageRank.csproj", "{8660E7FD-B2CF-4A42-9A63-C091ECD341E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shingles", "Shingles\Shingles.csproj", "{8ADBF66C-4730-4CB7-ABBD-2148442AA30F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageRankTests", "PageRankTests\PageRankTests.csproj", "{5DF71A80-30DD-4ADA-85CA-81B604FB64E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{8660E7FD-B2CF-4A42-9A63-C091ECD341E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8660E7FD-B2CF-4A42-9A63-C091ECD341E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8660E7FD-B2CF-4A42-9A63-C091ECD341E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ADBF66C-4730-4CB7-ABBD-2148442AA30F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ADBF66C-4730-4CB7-ABBD-2148442AA30F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ADBF66C-4730-4CB7-ABBD-2148442AA30F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ADBF66C-4730-4CB7-ABBD-2148442AA30F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DF71A80-30DD-4ADA-85CA-81B604FB64E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DF71A80-30DD-4ADA-85CA-81B604FB64E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DF71A80-30DD-4ADA-85CA-81B604FB64E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DF71A80-30DD-4ADA-85CA-81B604FB64E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
