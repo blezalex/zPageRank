@@ -26,6 +26,26 @@ namespace PageRank
             return result;
         }
 
+        static void MainTopicSpecific(string[] args)
+        {
+            var graph = new [] { 
+                new Node { IncomingLinks = new List<int> { 1 },    OutgoingLinksCount = 2 }, 
+                new Node { IncomingLinks = new List<int> { 0 },    OutgoingLinksCount = 1 }, 
+                new Node { IncomingLinks = new List<int> { 0, 3 }, OutgoingLinksCount = 1 }, 
+                new Node { IncomingLinks = new List<int> { 2 },    OutgoingLinksCount = 1 }, 
+            };
+
+            var graphRank = RankGraph.CalculateTopicSpecific(graph, new Dictionary<int, double> { {0, 2/3.0}, {1, 1/3.0} }, 0.7, 0.0001);
+
+
+            double sumRank = 0;
+            for (int i = 0; i < graph.Length; i++)
+            {
+                sumRank += graphRank[i];
+                Console.WriteLine("TSPR({0}) = {1}", i +1, graphRank[i]);
+            }
+        }
+
         static void Main(string[] args)
         {
             var graph = new Node[920000];
