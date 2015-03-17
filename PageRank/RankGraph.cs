@@ -46,8 +46,10 @@ namespace PageRank
                     double nodeNewRank = 0;
                     foreach (var incomingNodeIdx in node.IncomingLinks)
                     {
-                        nodeNewRank += beta * prevRank[incomingNodeIdx] / graph[incomingNodeIdx].OutgoingLinksCount;
+                        nodeNewRank += prevRank[incomingNodeIdx] / graph[incomingNodeIdx].OutgoingLinksCount;
                     }
+
+                    nodeNewRank *= beta;
 
                     newRank[i] = nodeNewRank;
 
